@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<project name="TanvirPageObjectFramework" default="compile" basedir=".">
+
+    <property name="ws.home" value="$basedir" />
+    <property name="test.dest" value="${ws.home}/build" />
+    <!--<property name="ws.jars" value="C:\Users\tanvi\.m2\repository" />-->
+    <property name="testng-report-dir" value="testng-output" />
+
+    <property name="cucumber-core.version" value="4.6.0" />
+    <property name="cucumber-java.version" value="4.6.0" />
+    <property name="cucumber-junit.version" value="4.6.0" />
+    <property name="gherkin.version" value="2.12.2" />
+    <property name="cucumber-jvm.version" value="4.6.0" />
+    <property name="cucumber-testng.version" value="4.6.0" />
+    <property name="testng.version" value="7.0.0" />
+
+    <property name = "jars" value="lib"/>
+    <target name ="download">
+        <mkdir dir ="${jars}"/>
+        <copy file ="${user.home}/.m2/repository/io/cucumber/cucumber-core/${cucumber-core.version}/cucumber-core-${cucumber-core.version}.jar"
+        todir="${jars}"/>
+        <copy file ="${user.home}/.m2/repository/io/cucumber/cucumber-java/${cucumber-java.version}/cucumber-java-${cucumber-java.version}.jar"
+              todir="${jars}"/>
+        <copy file ="${user.home}/.m2/repository/io/cucumber/cucumber-junit/${cucumber-junit.version}/cucumber-junit-${cucumber-junit.version}.jar"
+              todir="${jars}"/>
+        <copy file ="${user.home}/.m2/repository/info/cukes/gherkin/${gherkin.version}/gherkin-${gherkin.version}.jar"
+              todir="${jars}"/>
+        <!--<copy file ="${user.home}/.m2/repository/io/cucumber/cucumber-jvm/${cucumber-jvm.version}/cucumber-jvm-${cucumber-jvm.version}.jar"
+              todir="${jars}"/>-->
+        <copy file ="${user.home}/.m2/repository/io/cucumber/cucumber-testng/${cucumber-testng.version}/cucumber-testng-${cucumber-testng.version}.jar"
+              todir="${jars}"/>
+        <copy file ="${user.home}/.m2/repository/org/testng/testng/${testng.version}/testng-${testng.version}.jar"
+              todir="${jars}"/>
+    </target>
+
+    <path id="classpath">
+        <fileset dir="${jars}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="target/classes"/>
+        <pathelement location="target/test-classes"/>
+        <pathelement location="src/test/resources"/>
+    </path>
+    <target name="compile">
+        <mkdir dir="target/classes"/>
+        <javac srcdir="src" destdir="target/classes" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="compile-test" depends="compile">
+        <mkdir dir="target/test-classes"/>
+        <javac srcdir="src/test/java" destdir="target/test-classes" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+   <target name="testng-execution" depends="compile">
+        <taskdef name="testng" classname="org.testng.TestNGAntTask" classpathref="classpath"/>
+       <mkdir dir="${testng-report-dir}"/>
+       <testng outputdir="${testng-report-dir}" classpathref="classpath" usedefaultlisteners="false">
+           <xmlfileset dir="${basedir}" includes="testng.xml" />
+       </testng>
+    </target>
+
+    <target name="runcukes" depends="compile-test">
+        <mkdir dir="target/cucumber-junit-report"/>
+        <java classname="cucumber.api.cli.Main" fork="true" failonerror="false" resultproperty="">
+        <classpath refid="classpath"/>
+
+        <arg value="--glue"/>
+        <arg value="com.ta.pageobject.stepdefs"/>
+        <arg value ="src/test/resource/"/>
+        <arg value ="--plugin"/>
+        <arg value = "html:target/html"/>
+        <arg value = "--plugin"/>
+        <arg value ="json:target/report.json"/>
+        <arg value = "--plugin"/>
+        <arg value = "junit:target/junit.xml"/>
+        <arg value = "--no-dry-run"/>
+        <arg value = "--no-strict"/>
+        <arg value = "--monochrome"/>
+        <arg value = "tags"/>
+        <arg value ="@flightbook"/>
+        </java>
+    </target>
+
+
+
+
+    <!--<target name = "setClassPath" unless="test.classpath">
+        <path id="classpath_jars">
+            <fileset dir="${ws.jars}" includes="*.jars"/>
+        </path>
+        <pathconvert pathsep=":" property="test.classpath" refid="classpath_jars"/>
+    </target>
+    <path id="testcase.path">
+        <pathelement location="${test.dest}"/>
+        <fileset dir="${ws.jars}">
+            <include name="*.jars" />
+        </fileset>
+    </path>
+
+
+    <target name ="init" depends="setClassPath">
+        <tstamp>
+            <format property="start.time" pattern="MM/dd/yyyy"/>
+        </tstamp>
+        <condition property="ANT" value="${env.ANT_HOME}/bin/ant.bat" else="${env.ANT_HOME}/bin/ant">
+            <os family="windows"/>
+        </condition>
+        <taskdef name="testng" classpath="${test.classpath}" classname="org.testng.TestNGAntTask" />
+    </target>
+
+    <target name="all">
+
+    </target>
+    <target name="clean">
+        <delete dir="${test.dest}"/>
+    </target>
+    <target name="compile" depends="init, clean">
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="${test.dest}" includes="**/*"/>
+        </delete>
+        <echo message="making directory...."/>
+        <mkdir dir="${test.dest}"/>
+        <echo message="compiling...."/>
+        <javac debug="true" destdir="${test.dest}" srcdir="${test.dest}" target="1.5" classpath="${test.classpath}" includeantruntime="false" >
+
+        </javac>
+    </target>
+    <target name="run" depends="compile">
+        <testng classpath="${test.classpath}:${test.dest}" suitename = "suite1">
+            <xmlfileset dir="${ws.home}" include="src/test/resource/testng.xml"/>
+
+        </testng>
+    </target>-->
+
+
+
+</project>

@@ -1,0 +1,77 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2019-12-30T19:45:23.726Z",
+        "line": 4,
+        "name": "User can log in correct credential",
+        "description": "",
+        "id": "login-test-for-flight-booking;user-can-log-in-correct-credential",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 429576800,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "User navigate to flightbooking site",
+            "match": {
+              "location": "LoginTest.user_navigate_to_flightbooking_site()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 474900,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "User enter correct user name",
+            "match": {
+              "location": "LoginTest.user_enter_correct_user_name()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 550600,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "User enter correct password",
+            "match": {
+              "location": "LoginTest.user_enter_correct_password()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 387400,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "User click login button",
+            "match": {
+              "location": "LoginTest.user_click_login_button()"
+            },
+            "keyword": "And "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@flightbooking_Login"
+          }
+        ]
+      }
+    ],
+    "name": "Login test for flight booking",
+    "description": "",
+    "id": "login-test-for-flight-booking",
+    "keyword": "Feature",
+    "uri": "file:src/test/resources/features/LoginTest.feature",
+    "tags": []
+  }
+]
